@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien\VAO/VBO/Mesh">
+      <UniqueIdentifier>{bc97d08b-3946-472f-8cf1-f069ae4e9932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\VAO/VBO/Mesh">
+      <UniqueIdentifier>{2bfb23c9-dbc9-4825-9055-a8921b733220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Shader">
+      <UniqueIdentifier>{25d3b8da-880d-4c2a-aa43-1dfe87bd3f29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Shader">
+      <UniqueIdentifier>{8a6530a8-50a8-44f1-8a4c-2ee148938e8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Camera">
+      <UniqueIdentifier>{982ac7b2-731b-4af7-9687-a0692a0e41ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Camera">
+      <UniqueIdentifier>{0eafc952-f014-4045-885c-974180b43fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\SceneManager">
+      <UniqueIdentifier>{e7f8d586-fc77-488a-9ab1-b196d968d29a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\SceneManager">
+      <UniqueIdentifier>{11539958-251c-410a-80ee-eefc7cf27bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\SceneManager\Model">
+      <UniqueIdentifier>{fdb9e538-ecd6-4e2a-b227-c08415246345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\SceneManager\Model">
+      <UniqueIdentifier>{159ed947-2cc3-469d-a14f-dab25c687e9c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="VAO.cpp">
+      <Filter>Quelldateien\VAO/VBO/Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="VBO.cpp">
+      <Filter>Quelldateien\VAO/VBO/Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomMesh.cpp">
+      <Filter>Quelldateien\VAO/VBO/Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="GLSLShader.cpp">
+      <Filter>Quelldateien\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsWindow.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Quelldateien\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeCamera.cpp">
+      <Filter>Quelldateien\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ChasingCamera.cpp">
+      <Filter>Quelldateien\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Quelldateien\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackballCamera.cpp">
+      <Filter>Quelldateien\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Quelldateien\SceneManager\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Quelldateien\SceneManager\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="GLSLUniformBuffer.cpp">
+      <Filter>Quelldateien\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Frag.glsl">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="Vert.glsl">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="VBO.h">
+      <Filter>Headerdateien\VAO/VBO/Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="VAO.h">
+      <Filter>Headerdateien\VAO/VBO/Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomMesh.h">
+      <Filter>Headerdateien\VAO/VBO/Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="GLSLShader.h">
+      <Filter>Headerdateien\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Headerdateien\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeCamera.h">
+      <Filter>Headerdateien\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="ChasingCamera.h">
+      <Filter>Headerdateien\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsWindow.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Headerdateien\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="OwnManuallyCreatedGeometryExamples.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackballCamera.h">
+      <Filter>Headerdateien\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Headerdateien\SceneManager\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Headerdateien\SceneManager\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GLSLUniformBuffer.h">
+      <Filter>Headerdateien\Shader</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
