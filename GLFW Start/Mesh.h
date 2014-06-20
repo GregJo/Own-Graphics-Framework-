@@ -1,8 +1,8 @@
 #pragma once
-#include <GL/glew.h>
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>           // Output data structure
-#include <assimp/postprocess.h>     // Post processing flags
+#include "../dependencies/gl/include/glew.h"
+#include "../dependencies/assimp/include/assimp/Importer.hpp"
+#include "../dependencies/assimp/include/assimp/scene.h"
+#include "../dependencies/assimp/include/assimp/postprocess.h"
 #include "VAO.h"
 #include "GLSLUniformBuffer.h"
 

@@ -2,8 +2,8 @@
 
 #define _USE_MATH_DEFINES 
 
-#include <GL/glew.h>
-#include <glfw3.h>
+#include "../dependencies/gl/include/glew.h"
+#include "../dependencies/GLFW/include/GLFW/glfw3.h"
 #include <stdio.h>
 #include <fstream>
 #include <string>
@@ -14,9 +14,9 @@
 #include "FreeCamera.h"
 #include "TrackballCamera.h"
 #include "Logger.h"
-#include <FreeImage.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "../dependencies/FreeImage/include/FreeImage.h"
+#include "../dependencies/glm/glm.hpp"
+#include "../dependencies/glm/gtc/matrix_transform.hpp"
 
 float timer = 0.0f;
 

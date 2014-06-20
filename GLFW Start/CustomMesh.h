@@ -1,5 +1,5 @@
 #pragma once
-#include <GL/glew.h>
+#include "../dependencies/gl/include/glew.h"
 #include <vector>
 
 #define VERT_POSITION_SIZE	3 //sizeof(GLfloat[3])

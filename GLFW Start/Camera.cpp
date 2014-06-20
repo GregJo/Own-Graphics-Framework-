@@ -1,8 +1,8 @@
 #pragma once
 #include "Camera.h"
 #include "Logger.h"
-#include <glfw3.h>
-#include <glm/gtc/matrix_transform.hpp>
+#include "../dependencies/GLFW/include/GLFW/glfw3.h"
+#include "../dependencies/glm/gtc/matrix_transform.hpp"
 
 Camera::Camera(GLdouble fovy, GLdouble aspect, GLdouble left, GLdouble right, GLdouble near, GLdouble far, glm::vec3 position, 
 				glm::vec3 up_dir, glm::vec3 look_point, bool perspective):

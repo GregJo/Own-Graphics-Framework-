@@ -1,5 +1,5 @@
 #pragma once
-#include <GL/glew.h>
+#include "../dependencies/gl/include/glew.h"
 #include "CustomMesh.h"
 
 class VBO

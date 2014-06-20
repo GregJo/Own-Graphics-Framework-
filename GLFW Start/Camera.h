@@ -1,6 +1,6 @@
 #pragma once
-#include <GL/glew.h>
-#include <glm\glm.hpp>
+#include "../dependencies/gl/include/glew.h"
+#include "../dependencies/glm/glm.hpp"
 
 class Camera
 {

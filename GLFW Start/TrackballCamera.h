@@ -1,6 +1,6 @@
 #pragma once
 #include "Camera.h"
-#include <glfw3.h>
+#include "../dependencies/GLFW/include/GLFW/glfw3.h"
 
 //No controls on this camera type controls yet
 class TrackballCamera : public Camera 

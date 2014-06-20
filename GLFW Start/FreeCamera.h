@@ -1,6 +1,6 @@
 #pragma once
 #include "Camera.h"
-#include <glfw3.h>
+#include "../dependencies/GLFW/include/GLFW/glfw3.h"
 
 class FreeCamera : public Camera 
 {

@@ -1,8 +1,8 @@
 #pragma once
 #define _USE_MATH_DEFINES 
 #include "FreeCamera.h"
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/rotate_vector.hpp>
+#include "../dependencies/glm/gtc/matrix_transform.hpp"
+#include "../dependencies/glm/gtx/rotate_vector.hpp"
 
 FreeCamera::FreeCamera(GLdouble fovy, GLdouble aspect, 
 						GLdouble left, GLdouble right, 

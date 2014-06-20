@@ -1,5 +1,5 @@
 #pragma once 
-#include <FreeImage.h>
+#include "../dependencies/FreeImage/include/FreeImage.h"
 #include "Mesh.h"
 #include "Image.h"
 

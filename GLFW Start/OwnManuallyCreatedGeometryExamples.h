@@ -1,5 +1,5 @@
-#include <glm/glm.hpp>
-#include <GL/glew.h>
+#include "../dependencies/glm/glm.hpp"
+#include "../dependencies/gl/include/glew.h"
 
 //________________________________________________________________________________________________________________________________________
 const GLfloat g_vertex_cube_buffer_data[] =	{

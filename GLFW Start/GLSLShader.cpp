@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
+#include "../dependencies/gl/include/glew.h"
 #include <fstream>
 #include <vector>
 #include <sys\stat.h>
