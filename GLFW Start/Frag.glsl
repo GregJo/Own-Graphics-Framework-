@@ -1,39 +1,47 @@
-#version 400 
+//in vec2 UV;
+//in vec3 eye_vert_pos;
+//in vec3 light_pos;
+//in vec3 normal;
 
-in vec2 ex_UV;
-in vec3 ex_vert_pos;
-in vec3 ex_light_pos;
-in vec3 ex_Normal;
+//uniform sampler2D diffuse_Sampler;
 
-out vec4 FragColor;
+//layout (std140) uniform Material 
+//{
+//    vec4 diffuse;
+//    vec4 ambient;
+//    vec4 specular;
+//    vec4 emissive;
+//    float shininess;
+//    //int texCount;
+//};
 
-uniform sampler2D diffuse_Sampler;
+#version 400
 
-layout (std140) uniform Material 
+in vec4 Position;
+in vec3 Normal;
+in vec4 eyeLightPosition;
+
+uniform vec3 LightIntensity = vec3(1.0f,1.0f,1.0f);
+uniform vec3 Kd = vec3(1.0f,0.5f,0.0f); // Diffuse reflectivity
+uniform vec3 Ka = vec3(0.0f,0.0f,0.0f); // Ambient reflectivity
+uniform vec3 Ks = vec3(1.0f,0.5f,0.0f); // Specular reflectivity
+uniform float Shininess = 200.0f; // Specular shininess factor
+
+layout( location = 0 ) out vec4 FragColor;
+
+float C_NORMALIZATION = 1.0 / 30.0;
+
+vec3 ads()
 {
-    vec4 diffuse;
-    vec4 ambient;
-    vec4 specular;
-    vec4 emissive;
-    float shininess;
-    //int texCount;
-};
- 
-void main()
-{
-	vec3 normalized_normal = normalize(ex_Normal);
-	vec3 normalized_vertex_to_light_vector = normalize(ex_light_pos-ex_vert_pos);
-    
-	float diffuseTerm = clamp(dot(normalized_normal, normalized_vertex_to_light_vector), 0.0, 1.0);
+	vec3 n = normalize( Normal );
+	vec3 s = normalize( vec3(eyeLightPosition) - vec3(Position) );
+	vec3 v = normalize( vec3(-Position) );
+	vec3 h = normalize( v + s );
 	
-	float dot_prod_specular = dot (normalized_vertex_to_light_vector, normalized_normal);
-	float specular_factor = pow (dot_prod_specular, 50);//shininess);
+	return LightIntensity * ( Ka + Kd * max( dot(s, n), 0.0 ) + Ks * pow(max(dot(h,n),0.0), Shininess ) * (Shininess + 8.0) * C_NORMALIZATION );
+}
 
-	vec4 diffuse_color  = vec4((diffuse.rgb * (texture( diffuse_Sampler, ex_UV ).rgb * diffuseTerm)),1);
-	vec4 specular_color = vec4((specular.rgb * specular_factor), 1);
-	vec4 final_color    = vec4(0.2*ambient.rgb,1) + ambient * diffuse_color + specular_color + 0 * vec4(emissive.rgb,1); 
-
-	FragColor = final_color;
-	//FragColor = vec4((vec3(0.5,0.5,0.5) * specular_factor), 1); //vec3(1.0,0.5,0.0)
-	//FragColor = specular;
+void main() 
+{
+	FragColor = vec4(ads(), 1.0);
 }

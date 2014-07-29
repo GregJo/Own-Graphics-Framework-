@@ -20,7 +20,7 @@
 
 float timer = 0.0f;
 
-// Rotation axix for the trackball cam
+// Rotation axis for the trackball cam
 glm::vec3 rotat_axis = glm::normalize(glm::vec3(0,1,0));
 
 // Post Process flags for the modelimport.
@@ -64,9 +64,9 @@ int main(void)
 	TrackballCamera* cam = new TrackballCamera(M_PI/2.0f, 4.0f/3.0f, 
 												0.0f, 0.0f, 
 												10.0f, 10000.0f, 
-												glm::vec3(0,0,-4500), 
+												glm::vec3(0,1,-100), 
 												glm::vec3(0,1,0), 
-												glm::vec3(0,10,0), 
+												glm::vec3(0,1,0), 
 												rotat_axis, true);
 	//______________________________________________________________________________________________________________________________________________________
 
@@ -88,7 +88,7 @@ int main(void)
 	//______________________________________________________________________________________________________________________________________________________
 	Model* test_model = new Model();
 	test_model->setShaderProgram(shaderProg.getHandle());
-	test_model->importLoadModel("G:/Program Files/Assimp/test/models-nonbsd/X/dwarf.x", processFlagsOnModelImport);
+	test_model->importLoadModel("G:/Program Files/Assimp/test/models/OBJ/WusonOBJ.obj", processFlagsOnModelImport);
 	//______________________________________________________________________________________________________________________________________________________
 
 	float ratio, width = 640, height = 480;
@@ -110,9 +110,10 @@ int main(void)
 		cam->update(timer);
 		//__________________________________________________________________________________________________________________________________________________
 
-		shaderProg.setUniform("lightPos", cam->getCamPos());
+		shaderProg.setUniform("LightPosition", cam->getCamPos());
 		shaderProg.setUniform("MVP", cam->getVPMatrix());
-		shaderProg.setUniform("TInvMVP", cam->getTranspInvVPMatrix());
+		shaderProg.setUniform("ViewMatrix", cam->getVMatrix());//glm::mat4());
+		shaderProg.setUniform("NormalMatrix", cam->getTranspInvMVMatrix());
 
 		//window_n1->makeContextCurrent();
 

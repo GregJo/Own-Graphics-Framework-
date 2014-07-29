@@ -1,5 +1,6 @@
 #pragma once
-#define _USE_MATH_DEFINES 
+#define _USE_MATH_DEFINES
+//#include <iostream>
 #include "TrackballCamera.h"
 #include "../dependencies/glm/gtc/matrix_transform.hpp"
 #include "../dependencies/glm/gtx/rotate_vector.hpp"
@@ -35,6 +36,8 @@ TrackballCamera::~TrackballCamera()
 void TrackballCamera::update(float time)
 {
 	m_tmp_position = glm::rotate(m_position, time, m_rotat_axis);
+	//std::cout << "OriginalCameraPosition" << m_position.x << ", " << m_position.y << ", " << m_position.z << std::endl;
+	//std::cout << "CameraPosition" << m_tmp_position.x << ", " << m_tmp_position.y << ", " << m_tmp_position.z << std::endl;
 	m_tmp_up_point = glm::rotate(m_up_point, time, m_rotat_axis);
 	m_tmp_right_point = glm::rotate(m_right_point, time, m_rotat_axis);
 
@@ -42,7 +45,7 @@ void TrackballCamera::update(float time)
 	m_up_dir = glm::normalize((m_tmp_up_point-m_tmp_position));
 	m_right_dir = glm::normalize((m_tmp_right_point-m_tmp_position));
 
-	glm::mat4 view = glm::lookAt(m_tmp_position, m_look_point, m_up_dir);
+	m_view = glm::lookAt(m_tmp_position, m_look_point, m_up_dir);
 
-	m_vp = m_projection * view;
+	m_vp = m_projection * m_view;
 }

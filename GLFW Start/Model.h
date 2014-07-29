@@ -2,6 +2,7 @@
 #include "../dependencies/FreeImage/include/FreeImage.h"
 #include "Mesh.h"
 #include "Image.h"
+#include "../dependencies/glm/glm.hpp"
 
 //TODO: Create logs.
 //TODO: Create Material struct and a method that returns it.
@@ -26,6 +27,12 @@ public:
 
 	void setShaderProgram(GLuint shaderProgHandle);
 
+	//TODO: Convert aiNode m_position into glm::vec3 and return it. 
+	glm::vec3 getModelPos()
+	{	
+		return glm::vec3(m_position->mTransformation.d1,m_position->mTransformation.d2,m_position->mTransformation.d3);
+	}
+
 	//! \brief Load mesh matrial.
 	//! \param material Material of a mesh.
 	void loadMaterial(aiMaterial* material);
@@ -38,6 +45,7 @@ private:
 
 	std::string		m_model_path_dir;
 	aiMesh**		m_meshes;
+	aiNode*			m_position; //Root of the aiScene of assimp.
 	ModelMesh**		m_model_meshes;
 	GLuint*			m_textureIds;
 

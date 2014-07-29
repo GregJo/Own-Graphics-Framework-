@@ -4,23 +4,28 @@ layout(location = 0) in vec3 in_Position;
 layout(location = 1) in vec2 in_UV;
 layout(location = 2) in vec3 in_Normal;
 
-out vec2 ex_UV;
-out vec3 ex_vert_pos;
-out vec3 ex_light_pos;
-out vec3 ex_Normal;
-out vec3 ex_vertex_to_light_vector;
-
-uniform vec3 lightPos;// = vec4(0,100,200,1);
+uniform vec3 LightPosition; // Light position in eye coords.
+uniform mat4 ViewMatrix;
+uniform mat4 NormalMatrix;
+//uniform mat4 ProjectionMatrix;
 uniform mat4 MVP;
-uniform mat4 TInvMVP;
+
+out vec4 Position;
+out vec3 Normal;
+out vec4 eyeLightPosition;
 
 void main()
 {
-	gl_Position = MVP * vec4(in_Position, 1);
-	ex_Normal = in_Normal; //normalize(vec3((MVP * vec4(in_Normal, 0)).xyz));
+	//vec4 tnorm = normalize(NormalMatrix * vec4(in_Normal,1.0));
+	Position = ViewMatrix * vec4(in_Position,1.0);
+	Normal = (NormalMatrix * vec4(in_Normal, 0.0)).xyz;
+	eyeLightPosition = ViewMatrix * vec4(LightPosition,1.0f);
 
-	// Test
-	ex_vert_pos = vec3(gl_Position)/gl_Position.w;
-	ex_light_pos = lightPos;
-	ex_UV = in_UV;
+	gl_Position = MVP * vec4(in_Position,1.0f);
 }
+
+//out vec2 UV;
+//out vec3 eye_vert_pos;
+//out vec3 light_pos;
+//out vec3 normal;
+//out vec3 vertex_to_light_vector;

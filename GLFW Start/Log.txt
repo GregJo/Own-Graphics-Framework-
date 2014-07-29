@@ -1,3 +1,3 @@
 Logger initialized.
 Shader Program linking status:Vertex shader(s) linked, fragment shader(s) linked.
-Couldn't load Image: dwarf2.jpg
+Retrieval of th uniform block parameters.

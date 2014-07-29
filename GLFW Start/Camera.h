@@ -1,6 +1,7 @@
 #pragma once
 #include "../dependencies/gl/include/glew.h"
 #include "../dependencies/glm/glm.hpp"
+#include "../dependencies/glm/gtx/transform.hpp"
 
 class Camera
 {
@@ -17,7 +18,9 @@ public:
 
 	virtual glm::vec3 getCamPos() = 0;
 	glm::mat4 getVPMatrix() { return m_vp; }
-	glm::mat4 getTranspInvVPMatrix() { return glm::transpose(glm::inverse(m_vp)); }
+	glm::mat4 getVMatrix() { return m_view; }
+	glm::mat4 getPMatrix() { return m_projection; }
+	glm::mat4 getTranspInvMVMatrix() { return glm::transpose(glm::inverse(m_view)); }
 
 protected:
 	// Following four members thought to be reference values, don't change, when object created.
@@ -31,6 +34,8 @@ protected:
 	glm::vec3 m_right_dir;
 
 	glm::mat4 m_vp;
+	glm::mat4 m_mv;
+	//glm::mat4 m_model;
 	glm::mat4 m_projection;
 	glm::mat4 m_view;
 

@@ -31,6 +31,7 @@ bool Model::importLoadModel(const std::string pFile, unsigned int pFlags)
 	Assimp::Importer importer;
 
 	const aiScene* scene = importer.ReadFile( pFile, pFlags );
+	m_position = scene->mRootNode;
 
 	if(!scene)  { Logger::GetInstance().Log(importer.GetErrorString()); return false; }
 
