@@ -60,14 +60,16 @@ int main(void)
 
 	// Camera
 	//______________________________________________________________________________________________________________________________________________________
-	//FreeCamera* cam = new FreeCamera(M_PI/2.0f, 4.0f/3.0f, 0.0f, 0.0f, 0.1f, 100000.0f, 0.04f, 0.04f, glm::vec3(0,0,-100), glm::vec3(0,1,0), glm::vec3(0,0,0), true);
+	FreeCamera* cam = new FreeCamera(M_PI/2.0f, 4.0f/3.0f, 0.0f, 0.0f, 0.1f, 100000.0f, 0.004f, 0.01f, glm::vec3(0,0,-100), glm::vec3(0,1,0), glm::vec3(0,0,0), true);
+	/*
 	TrackballCamera* cam = new TrackballCamera(M_PI/2.0f, 4.0f/3.0f, 
 												0.0f, 0.0f, 
 												10.0f, 10000.0f, 
-												glm::vec3(0,1,-100), 
+												glm::vec3(0,0,-200), 
 												glm::vec3(0,1,0), 
 												glm::vec3(0,1,0), 
 												rotat_axis, true);
+												*/
 	//______________________________________________________________________________________________________________________________________________________
 
 	setErrorCallbackAndInit(error_callback);
@@ -80,7 +82,7 @@ int main(void)
 
 	GLSLProgram shaderProg;
 
-	shaderProg.initShaderProgram("Vert.glsl", "", "", "", "Frag.glsl");
+	shaderProg.initShaderProgram("VertToonShader.glsl", "GeomToonShader.glsl", "", "", "FragToonShader.glsl");
 
 	shaderProg.use();
 
@@ -105,14 +107,15 @@ int main(void)
 		// Camera
 		//__________________________________________________________________________________________________________________________________________________
 		// Update
-		//cam->camControll(window_n1->getWindowHandle());
-		//cam->update();
-		cam->update(timer);
+		cam->camControll(window_n1->getWindowHandle());
+		cam->update();
+		//cam->update(timer);
 		//__________________________________________________________________________________________________________________________________________________
 
 		shaderProg.setUniform("LightPosition", cam->getCamPos());
 		shaderProg.setUniform("MVP", cam->getVPMatrix());
-		shaderProg.setUniform("ViewMatrix", cam->getVMatrix());//glm::mat4());
+		//shaderProg.setUniform("ProjectionMatrix", cam->getPMatrix());
+		shaderProg.setUniform("ViewMatrix", cam->getVMatrix());
 		shaderProg.setUniform("NormalMatrix", cam->getTranspInvMVMatrix());
 
 		//window_n1->makeContextCurrent();

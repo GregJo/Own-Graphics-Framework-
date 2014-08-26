@@ -8,7 +8,8 @@ ModelMesh::ModelMesh() : m_vertex_buffer_data(nullptr),
 	m_color_buffer_data(nullptr),
 	m_index_buffer_data(nullptr),
 	m_vertices_count(0),
-	m_indices_count(0)
+	m_indices_count(0),
+	m_vert_alignment(GL_TRIANGLES)
 {}
 
 ModelMesh::~ModelMesh()
@@ -183,6 +184,108 @@ void ModelMesh::loadMaterial(aiMaterial* mat, GLuint shaderProgHandle)
 	m_material_uniform_buffer->copyFromSystemMemory((void*)(&m_material), sizeof(m_material));
 }
 
+void ModelMesh::FindAdjacencies(const aiMesh* paiMesh)
+{
+	std::vector<GLuint> Indices(m_index_buffer_data, (m_index_buffer_data + sizeof(m_index_buffer_data) / sizeof(m_index_buffer_data[0])));
+
+    for (unsigned int i = 0 ; i < paiMesh->mNumFaces ; i++) 
+	{
+		// Current face we are working with.
+        const aiFace& face = paiMesh->mFaces[i];
+		// Necessity explained one comment below.
+        aiFace Unique;
+
+        // If a position vector is duplicated in the VB we fetch the 
+        // index of the first occurrence.
+        for (unsigned int j = 0 ; j < 3 ; j++) 
+		{ 
+            unsigned int Index = face.mIndices[j];
+            const aiVector3D& v = paiMesh->mVertices[Index];
+			
+			if (m_position_map.find(v) == m_position_map.end()) 
+			{
+                m_position_map[v] = Index;
+            }
+            else 
+			{
+                Index = m_position_map[v];
+            }
+			
+			// Overwrite face Index to make it truely unique.
+            Unique.mIndices[j] = Index;
+        }
+
+		m_unique_faces_map.push_back(Unique);
+
+		Edge e1(Unique.mIndices[0], Unique.mIndices[1]);
+        Edge e2(Unique.mIndices[1], Unique.mIndices[2]);
+        Edge e3(Unique.mIndices[2], Unique.mIndices[0]);
+
+		// Here is a 'Neighbours' data structure necessary.
+		// Declare current face as neighbour to all edges it is consists of.
+		/*
+		if (m_index_map.find(e1) == m_index_map.end()) 
+		{
+			Neighbours* n = new Neighbours();
+			m_index_map[e1] = *n;
+        }
+		if (m_index_map.find(e2) == m_index_map.end()) 
+		{
+			Neighbours* n = new Neighbours();
+			m_index_map[e2] = *n;
+        }
+		if (m_index_map.find(e3) == m_index_map.end()) 
+		{
+			Neighbours* n = new Neighbours();
+			m_index_map[e3] = *n;
+        }
+		*/
+		m_index_map[e1].addNeighbor(i);
+        m_index_map[e2].addNeighbor(i);
+        m_index_map[e3].addNeighbor(i);
+    }
+
+	// Continue here.
+    for (unsigned int i = 0 ; i < paiMesh->mNumFaces ; i++) { 
+        const aiFace& face = m_unique_faces_map[i];
+
+        for (unsigned int j = 0 ; j < 3 ; j++) { 
+			// Rebuild the edges, which we advised Neighbours to (Edges of the current face)
+            Edge e(face.mIndices[j], face.mIndices[(j + 1) % 3]);
+            assert(m_index_map.find(e) != m_index_map.end());
+			// Get the current face index to the current edge
+            Neighbors n = m_index_map[e];
+			// Get the opposite face index to the current edge
+            unsigned int OtherTri = n.getOther(i);
+
+            assert(OtherTri != -1);
+
+            const aiFace& OtherFace = m_unique_faces_map[OtherTri];
+
+			unsigned int OppositeIndex = (unsigned int) -1;
+
+			for(int k=0 ; k < 3 ; k++)
+			{
+				if(OtherFace.mIndices[k] != face.mIndices[j] && OtherFace.mIndices[k] !=  face.mIndices[(j + 1) % 3])
+				{
+					OppositeIndex = OtherFace.mIndices[k];
+					break;
+				}
+			}
+
+            Indices.push_back(face.mIndices[j]);
+            Indices.push_back(OppositeIndex); 
+        }
+    }
+
+	m_index_buffer_data = Indices.data();
+}
+
+void ModelMesh::createTriangleAdjacencyBuffers()
+{
+
+}
+
 void ModelMesh::initModelMesh()
 {
 	CustomMesh* mesh = new CustomMesh( m_vertex_buffer_data,
@@ -190,10 +293,11 @@ void ModelMesh::initModelMesh()
 								m_normal_buffer_data,
 								m_color_buffer_data,
 								m_index_buffer_data,
-								m_vertices_count, m_indices_count);
+								m_vertices_count, m_indices_count,
+								m_vert_alignment );
 
 	VBO* vbo = new VBO(mesh);
-	m_vao = new VAO(vbo);
+	m_vao = new VAO(vbo, m_vert_alignment);
 
 	m_vao->InitVAO();
 }

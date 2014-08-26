@@ -92,7 +92,7 @@ bool GLSLProgram::mf_compileShaderFromString( const std::string & source,
 	glGetShaderiv( shader, GL_COMPILE_STATUS, &result );
 	if( GL_FALSE == result )
 	{
-		Logger::GetInstance().Log( "Vertex shader compilation failed!" );
+		Logger::GetInstance().Log( "Shader compilation failed!" );
 		GLint logLen;
 		glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &logLen );
 		if( logLen > 0 )
@@ -103,7 +103,6 @@ bool GLSLProgram::mf_compileShaderFromString( const std::string & source,
 			m_logString = "";
 			m_logString += "Shader log:\n";
 			m_logString.append(log_text);
-			Logger::GetInstance().Log(log().c_str());
 			free(log_text);
 		}
 		return false;

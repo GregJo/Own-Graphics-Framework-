@@ -9,7 +9,7 @@
 #include <iostream>
 
 static std::shared_ptr<Logger> Instance;
-const int MAX_DEBUG_LINE_LEN = 1024;
+const int MAX_DEBUG_LINE_LEN = 8192;
 
 Logger::Logger()
 {

@@ -107,6 +107,12 @@
     <None Include="FragToonShader.glsl">
       <Filter>Ressourcendateien</Filter>
     </None>
+    <None Include="GeomToonShader.glsl">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="VertToonShader.glsl">
+      <Filter>Ressourcendateien</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VBO.h">
@@ -158,6 +164,9 @@
       <Filter>Headerdateien\Shader</Filter>
     </ClInclude>
     <ClInclude Include="ScreenFillingQuad.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Quad.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

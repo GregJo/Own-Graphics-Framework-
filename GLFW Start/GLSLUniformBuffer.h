@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <gl\glew.h>
+#include "..\dependencies\gl\include\glew.h"
 
 //Errors to cover:
 class GLSLUniformBuffer

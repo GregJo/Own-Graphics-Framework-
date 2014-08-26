@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include <gl\glew.h>
-#include <glm\glm.hpp>
+#include "..\dependencies\gl\include\glew.h"
+#include "..\dependencies\glm\glm.hpp"
 
 namespace GLSLShader {
 	enum GLSLShaderType {

@@ -26,8 +26,10 @@ public:
 	bool loadTexture(const aiScene* scene);
 
 	void setShaderProgram(GLuint shaderProgHandle);
+	
+	void setVertAlignment(GLenum vert_alignment){ m_vert_alignment = vert_alignment; }
+	const GLenum getVertAlignment(GLenum vert_alignment){ return m_vert_alignment; }
 
-	//TODO: Convert aiNode m_position into glm::vec3 and return it. 
 	glm::vec3 getModelPos()
 	{	
 		return glm::vec3(m_position->mTransformation.d1,m_position->mTransformation.d2,m_position->mTransformation.d3);
@@ -37,7 +39,7 @@ public:
 	//! \param material Material of a mesh.
 	void loadMaterial(aiMaterial* material);
 
-	//TODO: Different samplers for different texture(diffuse) types. 
+	//TODO: Different samplers for different texture(diffuse, glossy, etc.) types. 
 	void drawModel();
 
 private:
@@ -48,6 +50,8 @@ private:
 	aiNode*			m_position; //Root of the aiScene of assimp.
 	ModelMesh**		m_model_meshes;
 	GLuint*			m_textureIds;
+
+	GLenum			m_vert_alignment;
 
 	unsigned int	m_mesh_count;
 };

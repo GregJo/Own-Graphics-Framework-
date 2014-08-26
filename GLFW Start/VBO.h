@@ -12,6 +12,7 @@ public:
 
 	GLuint getIndicesCount(){ return m_mesh->getIndicesCount(); }
 	const GLuint* getIndicesData(){ return m_mesh->getMeshIndexDataAsArray(); }
+	const GLenum getVertAlignment(){ return m_mesh->getVertAlignment(); }
 
 private:
 	CustomMesh* m_mesh;

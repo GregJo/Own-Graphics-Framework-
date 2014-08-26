@@ -27,7 +27,8 @@ public:
 			   const GLfloat* normals, const GLfloat* color, 
 			   const GLuint* indices, 
 			   unsigned int vert_count, 
-			   unsigned int indices_count);
+			   unsigned int indices_count,
+			   GLenum vert_alignment);
 	
 	~CustomMesh();
 
@@ -46,6 +47,8 @@ public:
 	const unsigned int getVertCount()		{ return m_vert_count; }
 	const unsigned int getIndicesCount()	{ return m_indices_count; }
 
+	const GLenum getVertAlignment()			{ return m_vert_alignment; }
+
 private:
 	const GLfloat* m_position;
 	const GLfloat* m_texcoord;
@@ -63,4 +66,6 @@ private:
 	const unsigned int m_indices_count;
 	unsigned int m_vertDataSize;
 	unsigned int m_vertElementSize;
+
+	GLenum m_vert_alignment;
 };

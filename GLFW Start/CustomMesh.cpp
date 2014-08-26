@@ -4,7 +4,8 @@
 CustomMesh::CustomMesh(const GLfloat* position, const GLfloat* texcoord, 
 					   const GLfloat* normals, const GLfloat* color, 
 			           const GLuint* indices, 
-					   unsigned int vert_count, unsigned int indices_count) :
+					   unsigned int vert_count, unsigned int indices_count,
+					   GLenum vert_alignment) :
 					   m_position(position),
 					   m_texcoord(texcoord),
 					   m_normals(normals),
@@ -16,7 +17,8 @@ CustomMesh::CustomMesh(const GLfloat* position, const GLfloat* texcoord,
 					   m_color_set(false),
 					   m_indices_set(false),
 					   m_vert_count(vert_count),
-					   m_indices_count(indices_count)
+					   m_indices_count(indices_count),
+					   m_vert_alignment(vert_alignment)
 {
 	m_vertDataSize = vert_count;
 	m_vertElementSize = 0;
