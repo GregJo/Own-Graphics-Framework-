@@ -43,6 +43,7 @@ bool Model::importLoadModel(const std::string pFile, unsigned int pFlags)
 	m_mesh_count = scene->mNumMeshes;
 
 	m_model_meshes = new ModelMesh*[m_mesh_count];
+
 	for(int i = 0; i < m_mesh_count; i++)
 	{
 		m_model_meshes[i] = new ModelMesh();

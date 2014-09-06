@@ -1,9 +1,10 @@
 #version 400 
+
 out vec4 FragColor;
 
 in vec4 GPosition;
 in vec3 GNormal;
-flat in bool GIsEdge; // Whether or not we're drawing an edge
+flat in int GIsEdge; // Whether or not we're drawing an edge
 
 uniform vec3 Kd = vec3(1.0f,0.0f,1.0f); // Diffuse reflectivity
 uniform vec3 LightPosition = vec3(1.0f,1.0f,1.0f);
@@ -25,7 +26,7 @@ vec3 toonShade( )
 
 void main() 
 {
-	if(!GIsEdge)
+	if(GIsEdge==0)
 	{
 		FragColor = vec4(toonShade(), 1.0);
 	}

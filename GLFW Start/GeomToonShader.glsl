@@ -1,11 +1,12 @@
 #version 400
+
 layout( triangles ) in;
 layout( triangle_strip, max_vertices = 30 ) out;
 
 out vec4 GPosition;
 out vec3 GNormal;
 
-flat out bool GIsEdge;
+flat out int GIsEdge;
 
 in vec4 Position[];
 in vec3 Normal[];
@@ -26,7 +27,7 @@ void emitEdgeQaud( vec3 e0, vec3 e1 )
 	vec2 n = vec2(-v.y, v.x) * EdgeWidth;
 
 	// Emit the quad
-	GIsEdge = true; // This is part of the sil. edge
+	GIsEdge = 1; // This is part of the sil. edge
 	gl_Position = vec4( e0.xy - ext, e0.z, 1.0 );
 	EmitVertex();
 	gl_Position = vec4( e0.xy - n - ext, e0.z, 1.0 );
@@ -56,7 +57,7 @@ void main()
 		emitQuadOnBackfacingTriangle(p0, p1, p2);
 	}
 
-	GIsEdge = false;
+	GIsEdge = 0;
 	
 	GPosition = Position[0];
 	GNormal = Normal[0];	

@@ -4,15 +4,18 @@
 
 void GLSLUniformBuffer::createUniformBuffer()
 {
-	m_blockIndex = glGetUniformBlockIndex(m_shaderProgHandle, m_name.c_str());
-
-	if(GL_INVALID_OPERATION == m_blockIndex)
+	if(GL_INVALID_OPERATION == m_shaderProgHandle)
 		Logger::GetInstance().Log("Shader program changed.");
 
+	m_blockIndex = glGetUniformBlockIndex(m_shaderProgHandle, m_name.c_str());
+
 	glGetActiveUniformBlockiv(m_shaderProgHandle, m_blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &m_blockSize);
+
+	if(GL_INVALID_INDEX == m_blockIndex)
+		Logger::GetInstance().Log("Invalid active uniformblock index.");
 	
 	if(m_blockSize == 0)
-		Logger::GetInstance().Log("Retrieval of th uniform block parameters.");
+		Logger::GetInstance().Log("No active uniformblocks avaible.");
 }
 
 void GLSLUniformBuffer::copyFromSystemMemory(void* data, const unsigned int dataSizeInBytes)
@@ -24,6 +27,12 @@ void GLSLUniformBuffer::copyFromSystemMemory(void* data, const unsigned int data
 
 void GLSLUniformBuffer::bindUniformBuffer()
 {
+	if(m_blockIndex == GL_INVALID_INDEX)
+	{
+		//Logger::GetInstance().Log("No valid active inactive block.");
+		return;
+	}
+
 	if(m_uniformBufferHandle != GL_INVALID_VALUE)
 		glBindBufferBase( GL_UNIFORM_BUFFER, m_blockIndex, m_uniformBufferHandle );
 	else

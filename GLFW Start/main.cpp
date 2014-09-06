@@ -60,6 +60,7 @@ int main(void)
 
 	// Camera
 	//______________________________________________________________________________________________________________________________________________________
+	/*
 	FreeCamera* cam = new FreeCamera(M_PI/2.0f, 4.0f/3.0f, 
 										0.0f, 0.0f, 
 										0.1f, 100000.0f, 
@@ -68,7 +69,8 @@ int main(void)
 										glm::vec3(0,1,0), 
 										glm::vec3(0,0,0), 
 										true);
-	/*
+										*/
+
 	TrackballCamera* cam = new TrackballCamera(M_PI/2.0f, 4.0f/3.0f, 
 												0.0f, 0.0f, 
 												10.0f, 10000.0f, 
@@ -76,7 +78,7 @@ int main(void)
 												glm::vec3(0,1,0), 
 												glm::vec3(0,1,0), 
 												rotat_axis, true);
-												*/
+												
 	//______________________________________________________________________________________________________________________________________________________
 
 	setErrorCallbackAndInit(error_callback);
@@ -97,7 +99,7 @@ int main(void)
 	//______________________________________________________________________________________________________________________________________________________
 	Model* test_model = new Model();
 	test_model->setShaderProgram(shaderProg.getHandle());
-	test_model->importLoadModel("C:/Users/Grigori\Documents/Visual Studio 2012/Projects/Own-Graphics-Framework-/Models/WusonOBJ.obj", processFlagsOnModelImport);
+	test_model->importLoadModel("C:/Users/Grigori/Documents/Visual Studio 2012/Projects/Own-Graphics-Framework-/Models/WusonOBJ.obj", processFlagsOnModelImport);
 	//______________________________________________________________________________________________________________________________________________________
 
 	float ratio, width = 640, height = 480;
@@ -114,9 +116,9 @@ int main(void)
 		// Camera
 		//__________________________________________________________________________________________________________________________________________________
 		// Update
-		cam->camControll(window_n1->getWindowHandle());
-		cam->update();
-		//cam->update(timer);
+		//cam->camControll(window_n1->getWindowHandle());
+		//cam->update();
+		cam->update(timer);
 		//__________________________________________________________________________________________________________________________________________________
 
 		shaderProg.setUniform("LightPosition", cam->getCamPos());
