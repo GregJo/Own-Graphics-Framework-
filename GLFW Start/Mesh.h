@@ -10,9 +10,34 @@
 #include <vector>
 #include <cassert>
 
-//TODO: Implement
+
+// TODO: Add copy constructors to all structs.
+struct TriangleAdjacency
+{
+public:
+	TriangleAdjacency() 
+	{
+		m_adjacency_idices[0] = -1;
+		m_adjacency_idices[1] = -1;
+		m_adjacency_idices[2] = -1;
+		m_adjacency_idices[3] = -1;
+		m_adjacency_idices[4] = -1;
+		m_adjacency_idices[5] = -1;
+	};
+	//~TriangleAdjacency()
+	//{
+	//	delete[] m_adjacency_idices;
+	//}
+
+	unsigned int m_face_index;
+	unsigned int m_adjacency_idices[6];
+	unsigned int m_neighbor_face_idices;
+	unsigned int m_neighbor_counter;
+};
+
 struct Edge
 {
+public:
 	Edge(unsigned int a, unsigned int b)
 	{
 		assert(a != b);
@@ -22,23 +47,59 @@ struct Edge
             m_a = a;
             m_b = b;                   
         }
-        else
+        else if (b < a)
         {
             m_a = b;
             m_b = a;
         }
 	}
-	~Edge(){}
+
+	~Edge(){ }
 
 	unsigned int m_a;
 	unsigned int m_b;
 };
 
+struct Face
+{
+public:
+	Face() : m_indices_counter(0)
+	{
+		m_indices[0] = -1;
+		m_indices[1] = -1;
+		m_indices[2] = -1;
+	}
+
+	~Face()
+	{
+		int a = 1;
+		//delete[] m_indices;
+	}
+
+	void addIndex(unsigned int index) 
+	{
+		assert(m_indices_counter < 3);
+		m_indices[m_indices_counter] = index; 
+		m_indices_counter++;
+	}
+
+	unsigned int m_indices[3];
+	unsigned int m_indices_counter;
+};
+
 struct Neighbors
 {
 public:
-	Neighbors() : m_neighbor_indices(new unsigned int[2]), m_neighbor_counter(0) {}
-	~Neighbors() {}
+	Neighbors() : m_neighbor_counter(0) 
+	{
+		m_neighbor_indices[0] = -1;
+		m_neighbor_indices[1] = -1;
+	}
+	~Neighbors() 
+	{
+		int a = 1;
+		//delete[] m_neighbor_indices;
+	}
 	
 	void addNeighbor(unsigned int neighbor_index) 
 	{
@@ -59,8 +120,7 @@ public:
 		} 
 	}
 
-private:
-	unsigned int* m_neighbor_indices;
+	unsigned int m_neighbor_indices[2] ;
 	unsigned int m_neighbor_counter;
 };
 
@@ -90,15 +150,17 @@ struct CompareEdge
 {
 	bool operator() (const Edge& lhs,const Edge& rhs)
 	{
-		if (lhs.m_a < lhs.m_a) {
+		if (lhs.m_a < rhs.m_a) {
             return true;
         }
-        else if (lhs.m_a == lhs.m_a) {
-            return (lhs.m_b < lhs.m_b);
+        else if (lhs.m_a == rhs.m_a) {
+			if (lhs.m_b < rhs.m_b) {
+				return true;
+			}
         }        
-        else {
-            return false;
-        }  
+        
+		return false;
+
 	}
 };
 
@@ -136,8 +198,9 @@ public:
 	void initModelMesh();
 
 	//TODO: Implement
+	//! \brief Overwrite index buffer with adjacency information.
 	void ModelMesh::FindAdjacencies(const aiMesh* paiMesh);
-	void createTriangleAdjacencyBuffers();
+	void ModelMesh::FindAdjacencies2(const aiMesh* paiMesh);
 
 	void bindMaterial()	{ m_material_uniform_buffer->bindUniformBuffer(); }
 
@@ -154,7 +217,7 @@ private:
 	unsigned int m_vertices_count;
 	unsigned int m_indices_count;
 
-	std::vector<aiFace> m_unique_faces_map;
+	std::vector<Face> m_unique_faces_vector;
 	std::map<aiVector3D, unsigned int, CompareVector> m_position_map;
 	std::map<Edge, Neighbors, CompareEdge> m_index_map;
 

@@ -83,7 +83,7 @@ int main(void)
 
 	setErrorCallbackAndInit(error_callback);
 	
-	GraphicsWindow* window_n1 = new GraphicsWindow(640, 480, "Simple example", NULL, NULL, key_callback);
+	GraphicsWindow* window_n1 = new GraphicsWindow(1200, 800, "Simple example", NULL, NULL, key_callback);
 	//GraphicsWindow* window_n2 = new GraphicsWindow(800, 600, "2nd Window", NULL, NULL);
 
 	// Initialize GLEW
@@ -99,10 +99,11 @@ int main(void)
 	//______________________________________________________________________________________________________________________________________________________
 	Model* test_model = new Model();
 	test_model->setShaderProgram(shaderProg.getHandle());
+	test_model->setVertAlignment(GL_TRIANGLES_ADJACENCY);
 	test_model->importLoadModel("C:/Users/Grigori/Documents/Visual Studio 2012/Projects/Own-Graphics-Framework-/Models/WusonOBJ.obj", processFlagsOnModelImport);
 	//______________________________________________________________________________________________________________________________________________________
 
-	float ratio, width = 640, height = 480;
+	float ratio, width = 1200, height = 800;
 
 	bool shouldClose_window_n1 = false;
 	//bool shouldClose_window_n2 = false;

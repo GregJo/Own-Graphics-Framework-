@@ -1,6 +1,7 @@
 #pragma once
 #include "Mesh.h"
 #include "Logger.h"
+#include <iterator>
 
 ModelMesh::ModelMesh() : m_vertex_buffer_data(nullptr),
 	m_texture_coord_buffer_data(nullptr),
@@ -184,16 +185,17 @@ void ModelMesh::loadMaterial(aiMaterial* mat, GLuint shaderProgHandle)
 	m_material_uniform_buffer->copyFromSystemMemory((void*)(&m_material), sizeof(m_material));
 }
 
+// TODO: Make sure everything is copied into the maps, to prevail memory leaks.
 void ModelMesh::FindAdjacencies(const aiMesh* paiMesh)
 {
-	std::vector<GLuint> Indices(m_index_buffer_data, (m_index_buffer_data + sizeof(m_index_buffer_data) / sizeof(m_index_buffer_data[0])));
+	std::vector<GLuint> Indices;
 
     for (unsigned int i = 0 ; i < paiMesh->mNumFaces ; i++) 
 	{
 		// Current face we are working with.
         const aiFace& face = paiMesh->mFaces[i];
 		// Necessity explained one comment below.
-        aiFace Unique;
+		Face Unique;
 
         // If a position vector is duplicated in the VB we fetch the 
         // index of the first occurrence.
@@ -212,78 +214,199 @@ void ModelMesh::FindAdjacencies(const aiMesh* paiMesh)
             }
 			
 			// Overwrite face Index to make it truely unique.
-            Unique.mIndices[j] = Index;
+            Unique.addIndex(Index);
         }
 
-		m_unique_faces_map.push_back(Unique);
+		m_unique_faces_vector.push_back(Unique);
 
-		Edge e1(Unique.mIndices[0], Unique.mIndices[1]);
-        Edge e2(Unique.mIndices[1], Unique.mIndices[2]);
-        Edge e3(Unique.mIndices[2], Unique.mIndices[0]);
+		Edge e1(Unique.m_indices[0], Unique.m_indices[1]);
+        Edge e2(Unique.m_indices[1], Unique.m_indices[2]);
+        Edge e3(Unique.m_indices[2], Unique.m_indices[0]);
 
 		// Here is a 'Neighbours' data structure necessary.
 		// Declare current face as neighbour to all edges it is consists of.
-		/*
-		if (m_index_map.find(e1) == m_index_map.end()) 
+		
+		bool isNotContained = (m_index_map.find(e1) == m_index_map.end());
+
+		//Neighbors* n = nullptr;
+		if (isNotContained) 
 		{
-			Neighbours* n = new Neighbours();
-			m_index_map[e1] = *n;
+			//Neighbors* n = new Neighbors();
+			//m_index_map[e1] = *n;
+			m_index_map[e1] = Neighbors();
         }
-		if (m_index_map.find(e2) == m_index_map.end()) 
+		isNotContained = (m_index_map.find(e2) == m_index_map.end());
+		if (isNotContained) 
 		{
-			Neighbours* n = new Neighbours();
-			m_index_map[e2] = *n;
+			m_index_map[e2] = Neighbors();
         }
-		if (m_index_map.find(e3) == m_index_map.end()) 
+		isNotContained = (m_index_map.find(e3) == m_index_map.end());
+		if (isNotContained) 
 		{
-			Neighbours* n = new Neighbours();
-			m_index_map[e3] = *n;
+			m_index_map[e3] = Neighbors();
         }
-		*/
+		
 		m_index_map[e1].addNeighbor(i);
         m_index_map[e2].addNeighbor(i);
         m_index_map[e3].addNeighbor(i);
+		
     }
 
 	// Continue here.
-    for (unsigned int i = 0 ; i < paiMesh->mNumFaces ; i++) { 
-        const aiFace& face = m_unique_faces_map[i];
-
+	for (unsigned int i = 0 ; i < m_unique_faces_vector.size() ; i++) { 
+        const Face& face = m_unique_faces_vector[i];
         for (unsigned int j = 0 ; j < 3 ; j++) { 
 			// Rebuild the edges, which we advised Neighbours to (Edges of the current face)
-            Edge e(face.mIndices[j], face.mIndices[(j + 1) % 3]);
+            Edge e(face.m_indices[j], face.m_indices[(j + 1) % 3]);
             assert(m_index_map.find(e) != m_index_map.end());
 			// Get the current face index to the current edge
             Neighbors n = m_index_map[e];
 			// Get the opposite face index to the current edge
+			if(n.m_neighbor_counter != 2)
+			{
+				Logger::GetInstance().Log("Not enough neighbors.");
+			}
+			assert(n.m_neighbor_counter == 2);
+
             unsigned int OtherTri = n.getOther(i);
 
+			if(OtherTri == -1)
+			{
+				Logger::GetInstance().Log("OtherTri has an invalid value.");
+			}
             assert(OtherTri != -1);
 
-            const aiFace& OtherFace = m_unique_faces_map[OtherTri];
+            const Face& OtherFace = m_unique_faces_vector[OtherTri];
 
-			unsigned int OppositeIndex = (unsigned int) -1;
+			unsigned int OppositeIndex = -1;
 
 			for(int k=0 ; k < 3 ; k++)
 			{
-				if(OtherFace.mIndices[k] != face.mIndices[j] && OtherFace.mIndices[k] !=  face.mIndices[(j + 1) % 3])
+				if(OtherFace.m_indices[k] != face.m_indices[j] && OtherFace.m_indices[k] != face.m_indices[(j + 1) % 3])
 				{
-					OppositeIndex = OtherFace.mIndices[k];
+					OppositeIndex = OtherFace.m_indices[k];
 					break;
 				}
 			}
 
-            Indices.push_back(face.mIndices[j]);
-            Indices.push_back(OppositeIndex); 
+            Indices.push_back(face.m_indices[j]);
+            //Indices.push_back(OppositeIndex); 
         }
     }
-
-	m_index_buffer_data = Indices.data();
+	int a = 1;
+	m_indices_count = Indices.size();
+	m_index_buffer_data=&Indices[0];
 }
 
-void ModelMesh::createTriangleAdjacencyBuffers()
+void ModelMesh::FindAdjacencies2(const aiMesh* paiMesh)
 {
+	std::vector<GLuint> Indices;
 
+    for (unsigned int i = 0 ; i < paiMesh->mNumFaces ; i++) 
+	{
+		// Current face we are working with.
+        const aiFace& face = paiMesh->mFaces[i];
+		// Necessity explained one comment below.
+		Face* Unique = new Face();
+
+        // If a position vector is duplicated in the VB we fetch the 
+        // index of the first occurrence.
+        for (unsigned int j = 0 ; j < 3 ; j++) 
+		{ 
+            unsigned int Index = face.mIndices[j];
+            const aiVector3D& v = paiMesh->mVertices[Index];
+			
+			if (m_position_map.find(v) == m_position_map.end()) 
+			{
+                m_position_map[v] = Index;
+            }
+            else 
+			{
+                Index = m_position_map[v];
+            }
+			
+			// Overwrite face Index to make it truely unique.
+            Unique->addIndex(Index);
+        }
+
+		m_unique_faces_vector.push_back(*Unique);
+	}
+	// The new triangles with adjacency, which provide the new index buffer.
+	std::vector< TriangleAdjacency > AdjTriIndices;
+	// The associative map with all edges and alligning triangle faces.
+	std::map< Edge, unsigned int, CompareEdge > EdgeAdjTriMap;
+	// For all unique faces.
+	for ( unsigned int i = 0 ; i < m_unique_faces_vector.size() ; ++i ) 
+	{ 
+		// Fill currently avaible information for the new adjacency triangle.
+		TriangleAdjacency adjTri;
+		adjTri.m_adjacency_idices[0] = m_unique_faces_vector.at(i).m_indices[0];
+		adjTri.m_adjacency_idices[2] = m_unique_faces_vector.at(i).m_indices[1];
+		adjTri.m_adjacency_idices[4] = m_unique_faces_vector.at(i).m_indices[2];
+
+		// Out the new adjacency triangle in the vector.
+		AdjTriIndices.push_back( adjTri );
+		// 
+		int index = AdjTriIndices.size()-1;
+
+		// For all three edges of the current face.
+		for( int j = 0 ; j < 3 ; ++j )  
+		{
+			// 
+			Edge e(m_unique_faces_vector.at(i).m_indices[j], m_unique_faces_vector.at(i).m_indices[(j + 1) % 3]);
+			//
+			auto itEdge = EdgeAdjTriMap.find(e);
+			if ( itEdge == EdgeAdjTriMap.end() )  
+			{
+				EdgeAdjTriMap[e] = index;
+			}
+			else  
+			{
+				TriangleAdjacency & gtri1 = AdjTriIndices[index] ;
+				TriangleAdjacency & gtri2 = AdjTriIndices[itEdge->second];
+
+				// Finde Edge Indices in gtri1
+				// Füge nicht vorhanden Dreiecksindex zu gtri2 and die entsprechende Stelle
+				// Finde Edge Indices in gtri2
+				// Füge nicht vorhanden Dreiecksindex zu gtri1 and die entsprechende Stelle
+				for( int k = 0 ; k < 6 ; k += 2 )
+				{
+					if(gtri2.m_adjacency_idices[k] == e.m_a && gtri2.m_adjacency_idices[(k+2)%6] == e.m_b || gtri2.m_adjacency_idices[k] == e.m_b && gtri2.m_adjacency_idices[(k+2)%6] == e.m_a)
+					{
+						unsigned int oppositeFaceIndex = gtri2.m_adjacency_idices[(k+4)%6];
+						for (int l = 0; l < 6; l+=2)
+						{
+							if(gtri1.m_adjacency_idices[l] == e.m_a && gtri1.m_adjacency_idices[(l+2)%6] == e.m_b || gtri1.m_adjacency_idices[l] == e.m_b && gtri1.m_adjacency_idices[(l+2)%6] == e.m_a)
+							{
+								gtri1.m_adjacency_idices[(l+1)%6] = oppositeFaceIndex;
+								gtri2.m_adjacency_idices[(k+1)%6] = gtri1.m_adjacency_idices[(l+4)%6];
+								break;
+							}
+						}
+						break;
+					}
+				}
+				EdgeAdjTriMap.erase( e );
+			}
+		}
+	}
+
+	delete[] m_index_buffer_data;
+
+	m_indices_count = AdjTriIndices.size()*6;
+	m_index_buffer_data = new GLuint[m_indices_count];
+
+	for (int i = 0; i < AdjTriIndices.size(); ++i)
+	{
+		for (int j = 0; j < 6; ++j)
+		{
+			m_index_buffer_data[i*6+j] = AdjTriIndices[i].m_adjacency_idices[j];
+		}
+	}
+	std::vector<GLuint> v(m_index_buffer_data, m_index_buffer_data + AdjTriIndices.size() * 6);
+	//std::vector<GLuint> v(std::begin(m_index_buffer_data), std::end(m_index_buffer_data));
+	int a = 1;
+	//m_index_buffer_data=&Indices[0];
 }
 
 void ModelMesh::initModelMesh()

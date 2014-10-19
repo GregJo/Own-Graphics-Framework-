@@ -48,6 +48,11 @@ bool Model::importLoadModel(const std::string pFile, unsigned int pFlags)
 	{
 		m_model_meshes[i] = new ModelMesh();
 		m_model_meshes[i]->loadModelMesh(m_meshes[i]);
+		if(m_vert_alignment == GL_TRIANGLES_ADJACENCY)
+		{
+			m_model_meshes[i]->FindAdjacencies2(m_meshes[i]);
+			m_model_meshes[i]->setVertAlignment(GL_TRIANGLES_ADJACENCY);
+		}
 		m_model_meshes[i]->initModelMesh();
 
 		material = scene->mMaterials[m_meshes[0]->mMaterialIndex];
