@@ -28,7 +28,7 @@ void main()
 {
 	if(GIsEdge==0)
 	{
-		//FragColor = vec4(toonShade(), 1.0);
+		FragColor = vec4(toonShade(), 1.0);
 		//FragColor = vec4(1.0, 0.0, 1.0, 1.0);
 	}
 	else

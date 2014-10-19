@@ -362,13 +362,15 @@ void ModelMesh::FindAdjacencies2(const aiMesh* paiMesh)
 			}
 			else  
 			{
+				// The current triangle.
 				TriangleAdjacency & gtri1 = AdjTriIndices[index] ;
+				// The current neighbor triangle alligning to the same current edge as the current trianle.
 				TriangleAdjacency & gtri2 = AdjTriIndices[itEdge->second];
 
-				// Finde Edge Indices in gtri1
-				// Füge nicht vorhanden Dreiecksindex zu gtri2 and die entsprechende Stelle
-				// Finde Edge Indices in gtri2
-				// Füge nicht vorhanden Dreiecksindex zu gtri1 and die entsprechende Stelle
+				// Find edge indices in gtri1.
+				// Add the missing triangle index of gtri2 at the according place.
+				// Find edge indices in gtri2.
+				// Add the missing triangle index of gtri1 at the according place.
 				for( int k = 0 ; k < 6 ; k += 2 )
 				{
 					if(gtri2.m_adjacency_idices[k] == e.m_a && gtri2.m_adjacency_idices[(k+2)%6] == e.m_b || gtri2.m_adjacency_idices[k] == e.m_b && gtri2.m_adjacency_idices[(k+2)%6] == e.m_a)
@@ -390,6 +392,24 @@ void ModelMesh::FindAdjacencies2(const aiMesh* paiMesh)
 			}
 		}
 	}
+
+	if(!EdgeAdjTriMap.empty())
+	{
+		for (auto itEdge = EdgeAdjTriMap.begin(); itEdge != EdgeAdjTriMap.end(); ++itEdge)
+		{
+			Edge e = itEdge->first; 
+			TriangleAdjacency & gtri = AdjTriIndices[itEdge->second];
+			//EdgeAdjTriMap.erase(itEdge);
+			for( int k = 0 ; k < 6 ; k += 2 )
+			{
+				if(gtri.m_adjacency_idices[k] == e.m_a && gtri.m_adjacency_idices[(k+2)%6] == e.m_b || gtri.m_adjacency_idices[k] == e.m_b && gtri.m_adjacency_idices[(k+2)%6] == e.m_a)
+				{
+					gtri.m_adjacency_idices[(k+1)%6] = gtri.m_adjacency_idices[(k+4)%6];
+				}
+			}
+		}
+	}
+	EdgeAdjTriMap.clear();
 
 	delete[] m_index_buffer_data;
 
