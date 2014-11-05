@@ -100,7 +100,7 @@ int main(void)
 	Model* test_model = new Model();
 	test_model->setShaderProgram(shaderProg.getHandle());
 	test_model->setVertAlignment(GL_TRIANGLES_ADJACENCY);
-	test_model->importLoadModel("C:/Users/Grigori/Documents/Visual Studio 2012/Projects/Own-Graphics-Framework-/Models/IronMan/Red Snapper.obj", processFlagsOnModelImport);
+	test_model->importLoadModel("../Models/IronMan/Red Snapper.obj", processFlagsOnModelImport);
 	//______________________________________________________________________________________________________________________________________________________
 
 	float ratio, width = 1200, height = 800;
