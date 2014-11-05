@@ -71,15 +71,13 @@ bool ModelMesh::loadModelMesh(aiMesh* mesh)
 	//TODO: Check for correctness.
 	if(mesh->HasVertexColors(0))
 	{
-		m_color_buffer_data = new GLfloat[m_vertices_count*4];
+		m_color_buffer_data = new GLfloat[4];
 
-		for(int i=0; i<m_vertices_count; i++)
-		{
-			m_color_buffer_data[i*4]   = mesh->mColors[i]->r;
-			m_color_buffer_data[i*4+1] = mesh->mColors[i]->g;
-			m_color_buffer_data[i*4+2] = mesh->mColors[i]->b;
-			m_color_buffer_data[i*4+3] = mesh->mColors[i]->a;
-		}
+		m_color_buffer_data[0] = mesh->mColors[0]->r;
+		m_color_buffer_data[1] = mesh->mColors[0]->g;
+		m_color_buffer_data[2] = mesh->mColors[0]->b;
+		m_color_buffer_data[3] = mesh->mColors[0]->a;
+
 	}
 
 	if(mesh->mNumFaces > 0)
@@ -185,120 +183,7 @@ void ModelMesh::loadMaterial(aiMaterial* mat, GLuint shaderProgHandle)
 	m_material_uniform_buffer->copyFromSystemMemory((void*)(&m_material), sizeof(m_material));
 }
 
-// TODO: Make sure everything is copied into the maps, to prevail memory leaks.
 void ModelMesh::FindAdjacencies(const aiMesh* paiMesh)
-{
-	std::vector<GLuint> Indices;
-
-    for (unsigned int i = 0 ; i < paiMesh->mNumFaces ; i++) 
-	{
-		// Current face we are working with.
-        const aiFace& face = paiMesh->mFaces[i];
-		// Necessity explained one comment below.
-		Face Unique;
-
-        // If a position vector is duplicated in the VB we fetch the 
-        // index of the first occurrence.
-        for (unsigned int j = 0 ; j < 3 ; j++) 
-		{ 
-            unsigned int Index = face.mIndices[j];
-            const aiVector3D& v = paiMesh->mVertices[Index];
-			
-			if (m_position_map.find(v) == m_position_map.end()) 
-			{
-                m_position_map[v] = Index;
-            }
-            else 
-			{
-                Index = m_position_map[v];
-            }
-			
-			// Overwrite face Index to make it truely unique.
-            Unique.addIndex(Index);
-        }
-
-		m_unique_faces_vector.push_back(Unique);
-
-		Edge e1(Unique.m_indices[0], Unique.m_indices[1]);
-        Edge e2(Unique.m_indices[1], Unique.m_indices[2]);
-        Edge e3(Unique.m_indices[2], Unique.m_indices[0]);
-
-		// Here is a 'Neighbours' data structure necessary.
-		// Declare current face as neighbour to all edges it is consists of.
-		
-		bool isNotContained = (m_index_map.find(e1) == m_index_map.end());
-
-		//Neighbors* n = nullptr;
-		if (isNotContained) 
-		{
-			//Neighbors* n = new Neighbors();
-			//m_index_map[e1] = *n;
-			m_index_map[e1] = Neighbors();
-        }
-		isNotContained = (m_index_map.find(e2) == m_index_map.end());
-		if (isNotContained) 
-		{
-			m_index_map[e2] = Neighbors();
-        }
-		isNotContained = (m_index_map.find(e3) == m_index_map.end());
-		if (isNotContained) 
-		{
-			m_index_map[e3] = Neighbors();
-        }
-		
-		m_index_map[e1].addNeighbor(i);
-        m_index_map[e2].addNeighbor(i);
-        m_index_map[e3].addNeighbor(i);
-		
-    }
-
-	// Continue here.
-	for (unsigned int i = 0 ; i < m_unique_faces_vector.size() ; i++) { 
-        const Face& face = m_unique_faces_vector[i];
-        for (unsigned int j = 0 ; j < 3 ; j++) { 
-			// Rebuild the edges, which we advised Neighbours to (Edges of the current face)
-            Edge e(face.m_indices[j], face.m_indices[(j + 1) % 3]);
-            assert(m_index_map.find(e) != m_index_map.end());
-			// Get the current face index to the current edge
-            Neighbors n = m_index_map[e];
-			// Get the opposite face index to the current edge
-			if(n.m_neighbor_counter != 2)
-			{
-				Logger::GetInstance().Log("Not enough neighbors.");
-			}
-			assert(n.m_neighbor_counter == 2);
-
-            unsigned int OtherTri = n.getOther(i);
-
-			if(OtherTri == -1)
-			{
-				Logger::GetInstance().Log("OtherTri has an invalid value.");
-			}
-            assert(OtherTri != -1);
-
-            const Face& OtherFace = m_unique_faces_vector[OtherTri];
-
-			unsigned int OppositeIndex = -1;
-
-			for(int k=0 ; k < 3 ; k++)
-			{
-				if(OtherFace.m_indices[k] != face.m_indices[j] && OtherFace.m_indices[k] != face.m_indices[(j + 1) % 3])
-				{
-					OppositeIndex = OtherFace.m_indices[k];
-					break;
-				}
-			}
-
-            Indices.push_back(face.m_indices[j]);
-            //Indices.push_back(OppositeIndex); 
-        }
-    }
-	int a = 1;
-	m_indices_count = Indices.size();
-	m_index_buffer_data=&Indices[0];
-}
-
-void ModelMesh::FindAdjacencies2(const aiMesh* paiMesh)
 {
 	std::vector<GLuint> Indices;
 

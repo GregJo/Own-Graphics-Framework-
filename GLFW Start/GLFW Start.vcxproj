@@ -121,6 +121,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="OwnManuallyCreatedGeometryExamples.h" />
     <ClInclude Include="Quad.h" />
+    <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="ScreenFillingQuad.h" />

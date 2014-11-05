@@ -4,15 +4,16 @@
 layout( triangles_adjacency ) in;
 layout( triangle_strip, max_vertices = 300 ) out;
 
+out vec2 GUV;
 out vec4 GPosition;
 out vec3 GNormal;
-
 flat out int GIsEdge;
 
+in vec2 UV[];
 in vec4 Position[];
 in vec3 Normal[];
 
-uniform float EdgeWidth = 0.005f; // Width of sil. edge in clip cds.
+uniform float EdgeWidth = 0.003f; // Width of sil. edge in clip cds.
 uniform float PctExtend = 0.02f; // Percentage to extend quad
 
 bool isBackfacing( vec3 a, vec3 b, vec3 c )
@@ -66,17 +67,20 @@ void main()
 	GIsEdge = 0;
 	
 	GPosition = Position[0];
-	GNormal = Normal[0];	
+	GNormal = Normal[0];
+	GUV = UV[0];	
     gl_Position = gl_in[0].gl_Position;
     EmitVertex();
 
 	GPosition = Position[2];
-	GNormal = Normal[2];	
+	GNormal = Normal[2];
+	GUV = UV[2];		
     gl_Position = gl_in[2].gl_Position;
     EmitVertex();
 
 	GPosition = Position[4];
-	GNormal = Normal[4];	
+	GNormal = Normal[4];
+	GUV = UV[4];		
 	gl_Position = gl_in[4].gl_Position;
     EmitVertex();
 

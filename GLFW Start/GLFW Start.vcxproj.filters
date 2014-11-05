@@ -169,5 +169,8 @@
     <ClInclude Include="Quad.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

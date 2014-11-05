@@ -50,7 +50,7 @@ bool Model::importLoadModel(const std::string pFile, unsigned int pFlags)
 		m_model_meshes[i]->loadModelMesh(m_meshes[i]);
 		if(m_vert_alignment == GL_TRIANGLES_ADJACENCY)
 		{
-			m_model_meshes[i]->FindAdjacencies2(m_meshes[i]);
+			m_model_meshes[i]->FindAdjacencies(m_meshes[i]);
 			m_model_meshes[i]->setVertAlignment(GL_TRIANGLES_ADJACENCY);
 		}
 		m_model_meshes[i]->initModelMesh();
@@ -98,6 +98,15 @@ bool Model::loadTexture(const aiScene* scene)
 	for (int i = 0; itr != textureIdMap.end(); ++i, ++itr)
     {
 		std::string filename = (*itr).first.c_str();	// get filename
+		unsigned found_double_backspace = (*itr).first.find_first_of("'\\' | '\'");
+		if(found_double_backspace != std::string::npos)
+		{
+			std::string filename_tmp = filename.substr(0,found_double_backspace);
+			filename_tmp.append("/");
+			filename_tmp.append(filename.substr(found_double_backspace+1));
+			filename = filename_tmp;
+		}
+
 		(*itr).second = m_textureIds[i];				// save texture id for filename in map
 
 		Bitmap image;
@@ -112,12 +121,15 @@ bool Model::loadTexture(const aiScene* scene)
 			glBindTexture(GL_TEXTURE_2D, m_textureIds[i]);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.getWidth(),
-				image.getHeight(), 0, GL_BGR, GL_UNSIGNED_BYTE,
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(),
+				image.getHeight(), 0, GL_BGRA, GL_UNSIGNED_BYTE,
 				image.getData()); 
         }
         else
-			Logger::GetInstance().Log("Couldn't load Image: %s\n", filename.c_str());
+		{
+			Logger::GetInstance().Log("Couldn't load Image: %s\n", total_path.c_str());
+			return false;
+		}
     }
 
 	return true;

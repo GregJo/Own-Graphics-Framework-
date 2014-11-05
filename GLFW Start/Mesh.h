@@ -200,7 +200,6 @@ public:
 	//TODO: Implement
 	//! \brief Overwrite index buffer with adjacency information.
 	void ModelMesh::FindAdjacencies(const aiMesh* paiMesh);
-	void ModelMesh::FindAdjacencies2(const aiMesh* paiMesh);
 
 	void bindMaterial()	{ m_material_uniform_buffer->bindUniformBuffer(); }
 

@@ -74,7 +74,7 @@ int main(void)
 	TrackballCamera* cam = new TrackballCamera(M_PI/2.0f, 4.0f/3.0f, 
 												0.0f, 0.0f, 
 												10.0f, 10000.0f, 
-												glm::vec3(0,0,-200), 
+												glm::vec3(0,0,-100), 
 												glm::vec3(0,1,0), 
 												glm::vec3(0,1,0), 
 												rotat_axis, true);
@@ -100,7 +100,7 @@ int main(void)
 	Model* test_model = new Model();
 	test_model->setShaderProgram(shaderProg.getHandle());
 	test_model->setVertAlignment(GL_TRIANGLES_ADJACENCY);
-	test_model->importLoadModel("C:/Users/Grigori/Documents/Visual Studio 2012/Projects/Own-Graphics-Framework-/Models/WusonOBJ.obj", processFlagsOnModelImport);
+	test_model->importLoadModel("C:/Users/Grigori/Documents/Visual Studio 2012/Projects/Own-Graphics-Framework-/Models/IronMan/Red Snapper.obj", processFlagsOnModelImport);
 	//______________________________________________________________________________________________________________________________________________________
 
 	float ratio, width = 1200, height = 800;
@@ -111,6 +111,9 @@ int main(void)
 	glfwSetCursorPos(window_n1->getWindowHandle(), (double) width /2.0, (double) height /2.0);
 
 	cam->setViewport(width,height,0.5f,0.5f);
+
+	glClearColor(0.4f,0.6f,0.94f,1.0f);
+
 
 	while (!shouldClose_window_n1)// || !shouldClose_window_n2)
     {
@@ -133,7 +136,7 @@ int main(void)
 		// GL stuff window 1
 		ratio =  height/width;
 		glViewport(0, 0, width, height);
-
+		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glDepthFunc(GL_LEQUAL);
