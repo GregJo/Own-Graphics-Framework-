@@ -9,12 +9,13 @@ out vec4 GPosition;
 out vec3 GNormal;
 flat out int GIsEdge;
 
+in float Scale[];
 in vec2 UV[];
 in vec4 Position[];
 in vec3 Normal[];
 
 uniform float EdgeWidth = 0.003f; // Width of sil. edge in clip cds.
-uniform float PctExtend = 0.02f; // Percentage to extend quad
+uniform float PctExtend = 0.03f; // Percentage to extend quad
 
 bool isBackfacing( vec3 a, vec3 b, vec3 c )
 {
@@ -22,11 +23,11 @@ bool isBackfacing( vec3 a, vec3 b, vec3 c )
 	return (!(crossProd > 0.0));
 }
 
-void emitEdgeQuad( vec3 e0, vec3 e1 )
+void emitEdgeQuad( vec3 e0, vec3 e1, float scale )
 {
-	vec2 ext = PctExtend * (e1.xy - e0.xy);
+	vec2 ext = (scale*PctExtend) * (e1.xy - e0.xy);
 	vec2 v = normalize(vec2(e1.x-e0.x,e1.y-e0.y));
-	vec2 n = vec2(-v.y, v.x) * EdgeWidth;
+	vec2 n = vec2(-v.y, v.x) * (scale*EdgeWidth);
 
 	// Emit the quad
 	GIsEdge = 1; // This is part of the sil. edge
@@ -41,12 +42,12 @@ void emitEdgeQuad( vec3 e0, vec3 e1 )
 	EndPrimitive();
 }
 
-void emitQuadOnBackfacingTriangle( vec3 a, vec3 b, vec3 c )
-{
-	emitEdgeQuad( b, a );
-	emitEdgeQuad( c, b );
-	emitEdgeQuad( a, c );
-}
+//void emitQuadOnBackfacingTriangle( vec3 a, vec3 b, vec3 c )
+//{
+//	emitEdgeQuad( b, a );
+//	emitEdgeQuad( c, b );
+//	emitEdgeQuad( a, c );
+//}
 
 void main() 
 {
@@ -59,9 +60,9 @@ void main()
 
 	if( !isBackfacing(p0, p2, p4) ) 
 	{
-		if( isBackfacing(p0,p1,p2) ) emitEdgeQuad(p0,p2);
-		if( isBackfacing(p2,p3,p4) ) emitEdgeQuad(p2,p4);
-		if( isBackfacing(p4,p5,p0) ) emitEdgeQuad(p4,p0);
+		if( isBackfacing(p0,p1,p2) ) emitEdgeQuad(p0,p2,Scale[0]);
+		if( isBackfacing(p2,p3,p4) ) emitEdgeQuad(p2,p4,Scale[2]);
+		if( isBackfacing(p4,p5,p0) ) emitEdgeQuad(p4,p0,Scale[4]);
 	}
 
 	GIsEdge = 0;

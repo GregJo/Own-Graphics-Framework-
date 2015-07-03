@@ -1,17 +1,23 @@
 #pragma once 
 #include "../dependencies/FreeImage/include/FreeImage.h"
+#include "GLSLShader.h"
 #include "Mesh.h"
 #include "Image.h"
+#include "GeometryObject.h"
 #include "../dependencies/glm/glm.hpp"
+#include "../dependencies/glm/gtc/matrix_transform.hpp"
 
 //TODO: Create logs.
 //TODO: Create Material struct and a method that returns it.
 //Errors to cover:
+//TODO: Add a shader member variable and a default shader.
 
-class Model
+class Model : public GeometryObject
 {
 public:
-	Model();
+	//! \param position Position of the model in worldspace.
+	Model() { }
+	Model(glm::vec3 position);
 	~Model();
 
 	//! \brief Load model as a scene.
@@ -26,13 +32,44 @@ public:
 	bool loadTexture(const aiScene* scene);
 
 	void setShaderProgram(GLuint shaderProgHandle);
+	void setShaderProgram(GLSLProgram* shaderProgram);
 	
-	void setVertAlignment(GLenum vert_alignment){ m_vert_alignment = vert_alignment; }
-	const GLenum getVertAlignment(GLenum vert_alignment){ return m_vert_alignment; }
+	void useCurrentShaderProgram() { m_currentShaderProg->use(); }
+	
+	void setVertAlignment(GLenum vert_alignment) { m_vert_alignment = vert_alignment; }
 
-	glm::vec3 getModelPos()
+	const GLenum getVertAlignment(GLenum vert_alignment) { return m_vert_alignment; }
+
+	GLSLProgram* getCurrentShaderProgram() { return m_currentShaderProg; }
+
+	void setPosition(glm::vec3 position)
 	{	
-		return glm::vec3(m_position->mTransformation.d1,m_position->mTransformation.d2,m_position->mTransformation.d3);
+		m_position = position;
+	}
+
+	void setScale(float scale)
+	{	
+		m_scale = scale;
+	}
+
+	glm::vec3 getPosition()
+	{	
+		return m_position;
+	}
+
+	glm::mat4 getWorldMatrix()
+	{
+		return glm::translate(glm::mat4(1), m_position);
+	}
+
+	float getScale()
+	{	
+		return m_scale;
+	}
+
+	glm::mat4 getScaleMatrix()
+	{
+		return glm::scale(glm::mat4(1),glm::vec3(m_scale,m_scale,m_scale)); 
 	}
 
 	//! \brief Load mesh matrial.
@@ -40,16 +77,21 @@ public:
 	void loadMaterial(aiMaterial* material);
 
 	//TODO: Different samplers for different texture(diffuse, glossy, etc.) types. 
-	void drawModel();
+	void draw();
 
 private:
+	GLSLProgram*	m_currentShaderProg;
+	GLSLProgram*	m_defaultShaderProg;
 	GLuint			m_shaderProgHandle;
 
 	std::string		m_model_path_dir;
 	aiMesh**		m_meshes;
-	aiNode*			m_position; //Root of the aiScene of assimp.
+	aiNode*			m_positionOriginal;				//Root of the aiScene of assimp.
 	ModelMesh**		m_model_meshes;
 	GLuint*			m_textureIds;
+
+	float			m_scale;
+	glm::vec3       m_position;
 
 	GLenum			m_vert_alignment;
 

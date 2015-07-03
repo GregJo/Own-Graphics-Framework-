@@ -213,26 +213,30 @@ void GLSLProgram::use()
 {
 	if(m_linked)
 		glUseProgram(m_handle);
-
-	GLint result = GL_FALSE;
-    int infoLogLength;
-
-	glGetProgramiv(m_handle, GL_LINK_STATUS, &result);
-    glGetProgramiv(m_handle, GL_INFO_LOG_LENGTH, &infoLogLength);
-    char* ProgramErrorMessage = new char[infoLogLength+1];
-    glGetProgramInfoLog(m_handle, infoLogLength, NULL, ProgramErrorMessage);
-
-	if(infoLogLength > 0)
+	else
 	{
-		m_logString = "Shader Program linking status:";
-		m_logString.append(ProgramErrorMessage);
-		Logger::GetInstance().Log(log().c_str());
+		GLint result = GL_FALSE;
+		int infoLogLength;
+
+		glGetProgramiv(m_handle, GL_LINK_STATUS, &result);
+		glGetProgramiv(m_handle, GL_INFO_LOG_LENGTH, &infoLogLength);
+		char* ProgramErrorMessage = new char[infoLogLength+1];
+		glGetProgramInfoLog(m_handle, infoLogLength, NULL, ProgramErrorMessage);
+
+		if(infoLogLength > 0)
+		{
+			m_logString = "Shader Program linking status:";
+			m_logString.append(ProgramErrorMessage);
+			Logger::GetInstance().Log(m_logString.c_str());
+		}
+
+		//printActiveUniforms();
+		//printActiveAttribs();
+
+		delete[] ProgramErrorMessage;
 	}
-
-	printActiveUniforms();
-	printActiveAttribs();
-
-	delete[] ProgramErrorMessage;
+	//printActiveUniforms();
+	//printActiveAttribs();
 }
 
 std::string GLSLProgram::log()
@@ -266,6 +270,13 @@ void GLSLProgram::setUniform(const char *name,float x,float y,float z)
 {
 	glUniform3f(mf_getUniformLocation(name),x,y,z);
 }
+
+void GLSLProgram::setUniform(const char *name, const glm::vec2 & v)
+{
+	const GLfloat val[2] = {v.x,v.y};
+	glUniform3fv(mf_getUniformLocation(name),1,val);
+}
+
 void GLSLProgram::setUniform(const char *name, const glm::vec3 & v)
 {
 	const GLfloat val[3] = {v.x,v.y,v.z};

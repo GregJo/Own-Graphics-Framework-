@@ -1,5 +1,6 @@
 #pragma once
 #include "Mesh.h"
+#include "GLSLShader.h"
 #include "Logger.h"
 #include <iterator>
 
@@ -330,7 +331,7 @@ void ModelMesh::initModelMesh()
 	m_vao->InitVAO();
 }
 
-void ModelMesh::drawModelMesh()
+void ModelMesh::draw()
 {
 	m_vao->RenderVAO();
 }

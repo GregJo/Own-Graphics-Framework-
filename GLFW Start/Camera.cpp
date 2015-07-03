@@ -100,3 +100,11 @@ void Camera::setViewport(unsigned int width, unsigned int height, float pixeloff
 
 	glViewport(pixeloffset_x, pixeloffset_y, width, height);
 }
+
+glm::vec3 Camera::getCamPos(){return m_position;}
+	
+void Camera::update(float time){}
+	
+void Camera::update(){}
+	
+void Camera::camControll(GLFWwindow* window){}

@@ -1,52 +1,33 @@
-//1.
-//2.
-//3.
+#pragma once
 #include "../dependencies/gl/include/glew.h"
+
+enum RenderTargetTextureCoponents
+{
+	Color=2,Depth=4,Invalid=8
+};
 
 class RenderTarget
 {
 public:
+
 	// Later on Implement: RenderTarget(Tex2d renderTex2D, bool depthBufferEnable)
-	RenderTarget(unsigned int width, unsigned int height, bool depthBufferEnable) : m_fboHandle(-1), m_renderTex2DHandle(-1), m_depthBufHandle(-1), m_drawBufs(nullptr)
-	{
-		// Generate and bind the framebuffer 
-		glGenFramebuffers(1, &m_fboHandle); 
-		glBindFramebuffer(GL_FRAMEBUFFER, m_fboHandle);
+	RenderTarget(unsigned int width, unsigned int height, unsigned int mask);
 
-		glGenTextures(1, &m_renderTex2DHandle); 
-		glActiveTexture(GL_TEXTURE0);  // Use texture unit 0 glBindTexture(GL_TEXTURE_2D, renderTex);
-		glBindTexture(GL_TEXTURE_2D, m_renderTex2DHandle);
+	inline bool IsValidMask( unsigned int mask);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr); 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+	//TODO: Add error handling. (Adding default texture to know if something went wrong, etc.)
+	void initAndBindRenderTargetTextures(unsigned int width, unsigned int height, unsigned int mask);
 
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D, m_renderTex2DHandle, 0);
+	~RenderTarget();
 
-		if(depthBufferEnable)
-		{
-			glGenRenderbuffers(1, &m_depthBufHandle); 
-			glBindRenderbuffer(GL_RENDERBUFFER, m_depthBufHandle); 
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-		}
+	void initDefaultTexture();
 
-		// Bind the depth buffer to the FBO 
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthBufHandle); 
-		// Set the target for the fragment shader outputs
-		GLenum drawBufs[] = {GL_COLOR_ATTACHMENT0};
-		// How to do this better?
-		m_drawBufs = drawBufs;
-		delete[] drawBufs;
-		glDrawBuffers(1, m_drawBufs); 
-		// Unbind the framebuffer, and revert to default framebuffer 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
+	void renderBuffer();
 
-	const GLuint getFBOHandle(){}
-	const GLuint getRenderTex2DHandle(){}
-	const GLuint getDepthTex2DHandle(){}
+	int checkFramebuffer();
 
-	const GLuint getRenderTex2DData(){}
+	const GLuint getFBOHandle();
+	const GLuint getTextureHandle();
 
 private:
 	GLuint m_fboHandle;

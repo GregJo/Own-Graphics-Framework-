@@ -2,6 +2,7 @@
 #include "../dependencies/gl/include/glew.h"
 #include "../dependencies/glm/glm.hpp"
 #include "../dependencies/glm/gtx/transform.hpp"
+#include "../dependencies/GLFW/include/GLFW/glfw3.h"
 
 class Camera
 {
@@ -16,7 +17,11 @@ public:
 
 	void setViewport(unsigned int width, unsigned int height, float pixeloffset_x, float pixeloffset_y);
 
-	virtual glm::vec3 getCamPos() = 0;
+	virtual glm::vec3 getCamPos()=0;
+	virtual void update(float time);
+	virtual void update();
+	virtual void camControll(GLFWwindow* window);
+
 	glm::mat4 getVPMatrix() { return m_vp; }
 	glm::mat4 getVMatrix() { return m_view; }
 	glm::mat4 getPMatrix() { return m_projection; }

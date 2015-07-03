@@ -3,8 +3,13 @@
 #include "Logger.h"
 #include <map>
 
-Model::Model() : m_mesh_count(0), m_model_meshes(nullptr), m_shaderProgHandle(0)
-{}
+Model::Model(glm::vec3 position) :  m_position(position), m_scale(0), m_mesh_count(0), m_model_meshes(nullptr), m_shaderProgHandle(0)
+{
+	m_defaultShaderProg = new GLSLProgram();
+	m_defaultShaderProg->initShaderProgram("Vert.glsl", "", "", "", "Frag.glsl");
+
+	m_currentShaderProg=m_defaultShaderProg;
+}
 
 Model::~Model()
 {
@@ -31,7 +36,7 @@ bool Model::importLoadModel(const std::string pFile, unsigned int pFlags)
 	Assimp::Importer importer;
 
 	const aiScene* scene = importer.ReadFile( pFile, pFlags );
-	m_position = scene->mRootNode;
+	m_positionOriginal = scene->mRootNode;
 
 	if(!scene)  { Logger::GetInstance().Log(importer.GetErrorString()); return false; }
 
@@ -140,19 +145,28 @@ void Model::setShaderProgram(GLuint shaderProgHandle)
 	m_shaderProgHandle = shaderProgHandle;
 }
 
+void Model::setShaderProgram(GLSLProgram* shaderProgram)
+{
+	m_currentShaderProg = shaderProgram;
+}
+
 void Model::loadMaterial(aiMaterial* material)
 {
 
 }
 
-void Model::drawModel()
+void Model::draw()
 {
+	// Later on this implement the possibility of using shader programs per mesh.
+	//m_currentShaderProg->use();
+
 	for(int i = 0; i < m_mesh_count; i++)
 	{
 		//TODO: Set different samplers for different texture types(diffuse, specular, etc.) via glActiveTexture(GL_TEXTUREi)
 		glBindTexture(GL_TEXTURE_2D, m_textureIds[i]);
 		m_model_meshes[i]->bindMaterial();
-		m_model_meshes[i]->drawModelMesh();
+		m_model_meshes[i]->draw();
 		//Set Samplers via SetUniform().
 	}
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

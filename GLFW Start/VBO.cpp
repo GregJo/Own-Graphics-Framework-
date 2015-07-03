@@ -69,6 +69,6 @@ void VBO::InitVBO()
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_mesh->getIndicesCount() * sizeof(GLuint), m_mesh->getMeshIndexDataAsArray(), GL_STATIC_DRAW);
 
 		m_mesh_index_BO_handle = indices_buffer;
-		m_mesh_index_BO_handle = true;
+		m_created_mesh_index_BO_handle = true;
 	}
 }

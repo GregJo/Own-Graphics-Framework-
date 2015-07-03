@@ -1,4 +1,1 @@
 Logger initialized.
-Shader Program linking status:
-Invalid active uniformblock index.
-No active uniformblocks avaible.

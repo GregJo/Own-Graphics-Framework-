@@ -11,11 +11,11 @@ void GLSLUniformBuffer::createUniformBuffer()
 
 	glGetActiveUniformBlockiv(m_shaderProgHandle, m_blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &m_blockSize);
 
-	if(GL_INVALID_INDEX == m_blockIndex)
-		Logger::GetInstance().Log("Invalid active uniformblock index.");
+	//if(GL_INVALID_INDEX == m_blockIndex)
+		//Logger::GetInstance().Log("Invalid active uniformblock index.");
 	
-	if(m_blockSize == 0)
-		Logger::GetInstance().Log("No active uniformblocks avaible.");
+	//if(m_blockSize == 0)
+		//Logger::GetInstance().Log("No active uniformblocks avaible.");
 }
 
 void GLSLUniformBuffer::copyFromSystemMemory(void* data, const unsigned int dataSizeInBytes)

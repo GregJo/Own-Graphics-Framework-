@@ -84,6 +84,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DefferedRenderer.cpp" />
+    <ClCompile Include="GBuffer.cpp" />
+    <ClCompile Include="GeometryObject.cpp" />
     <ClCompile Include="GLSLUniformBuffer.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -96,35 +99,56 @@
     <ClCompile Include="GLSLShader.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="Quad.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScreenFillingQuad.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="TrackballCamera.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DefaultTexFrag.glsl" />
+    <None Include="DefaultTexVert.glsl" />
     <None Include="Frag.glsl" />
+    <None Include="FragDirLight.glsl" />
+    <None Include="FragPointLight.glsl" />
+    <None Include="FragStencilPass.glsl" />
     <None Include="FragToonShader.glsl" />
+    <None Include="GeomPassFrag.glsl" />
+    <None Include="GeomPassVert.glsl" />
     <None Include="GeomToonShader.glsl" />
+    <None Include="SkyboxFrag.glsl" />
+    <None Include="SkyboxVert.glsl" />
     <None Include="Vert.glsl" />
+    <None Include="VertDirLight.glsl" />
+    <None Include="VertPointLight.glsl" />
+    <None Include="VertStencilPass.glsl" />
     <None Include="VertToonShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChasingCamera.h" />
     <ClInclude Include="CustomMesh.h" />
+    <ClInclude Include="DefferedRenderer.h" />
     <ClInclude Include="FreeCamera.h" />
+    <ClInclude Include="GBuffer.h" />
+    <ClInclude Include="GeometryObject.h" />
     <ClInclude Include="GLSLShader.h" />
     <ClInclude Include="GLSLUniformBuffer.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="OwnManuallyCreatedGeometryExamples.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="ScreenFillingQuad.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="TrackballCamera.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />

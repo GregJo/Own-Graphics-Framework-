@@ -9,6 +9,7 @@ namespace GLSLShader {
 	};
 };
 
+// TODO: Add the kind of vertex data needed for each shader (GL_TRIANGLES, etc.), as member variable, aswell as setter and getter.
 class GLSLProgram
 {
 public:
@@ -39,6 +40,7 @@ public:
 
 	void setUniform(const char* name,float x,float y,
 		float z);
+	void setUniform(const char *name, const glm::vec2 & v);
 	void setUniform(const char* name, const glm::vec3& v);
 	void setUniform(const char* name, const glm::vec4& v);
 	void setUniform(const char* name, const glm::mat4& m);

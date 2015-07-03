@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Headerdateien\VAO/VBO/Mesh">
-      <UniqueIdentifier>{bc97d08b-3946-472f-8cf1-f069ae4e9932}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\VAO/VBO/Mesh">
-      <UniqueIdentifier>{2bfb23c9-dbc9-4825-9055-a8921b733220}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Headerdateien\Shader">
       <UniqueIdentifier>{25d3b8da-880d-4c2a-aa43-1dfe87bd3f29}</UniqueIdentifier>
     </Filter>
@@ -37,11 +31,44 @@
     <Filter Include="Quelldateien\SceneManager">
       <UniqueIdentifier>{11539958-251c-410a-80ee-eefc7cf27bf6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headerdateien\SceneManager\Model">
+    <Filter Include="Ressourcendateien\Skybox">
+      <UniqueIdentifier>{5dd75e40-7cc4-47ae-a4d2-68a468781774}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Geometry">
+      <UniqueIdentifier>{61d05aba-44fa-4811-b11b-8d2e6a360bab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Geometry\Model">
       <UniqueIdentifier>{fdb9e538-ecd6-4e2a-b227-c08415246345}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Quelldateien\SceneManager\Model">
+    <Filter Include="Headerdateien\Geometry\VAO/VBO/Mesh">
+      <UniqueIdentifier>{bc97d08b-3946-472f-8cf1-f069ae4e9932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Geometry">
+      <UniqueIdentifier>{65b596fe-46fb-42a3-9ef6-86d05227e55b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Geometry\Model">
       <UniqueIdentifier>{159ed947-2cc3-469d-a14f-dab25c687e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ressourcendateien\Silhouette Shader">
+      <UniqueIdentifier>{dfc6a15e-8e91-47ef-8c0d-47059634b77d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Geometry\VAO/VBO/Mesh">
+      <UniqueIdentifier>{2bfb23c9-dbc9-4825-9055-a8921b733220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Deffered Rederer">
+      <UniqueIdentifier>{062a8563-1abd-4206-90cd-bed4b213263d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Deffered Renderer">
+      <UniqueIdentifier>{bd003812-4eea-408f-8674-d648afb2ad1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ressourcendateien\Deffered Rendering">
+      <UniqueIdentifier>{bb4610f9-0f1c-4aff-ab71-510774990f49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ressourcendateien\Deffered Rendering\LightingShaders">
+      <UniqueIdentifier>{3dda47ae-a790-4b8a-b21c-a429c40a39d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ressourcendateien\Deffered Rendering\StencilPass">
+      <UniqueIdentifier>{8e5ead04-4ed1-44d8-998b-36b19e84a37e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,13 +76,13 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="VAO.cpp">
-      <Filter>Quelldateien\VAO/VBO/Mesh</Filter>
+      <Filter>Quelldateien\Geometry\VAO/VBO/Mesh</Filter>
     </ClCompile>
     <ClCompile Include="VBO.cpp">
-      <Filter>Quelldateien\VAO/VBO/Mesh</Filter>
+      <Filter>Quelldateien\Geometry\VAO/VBO/Mesh</Filter>
     </ClCompile>
     <ClCompile Include="CustomMesh.cpp">
-      <Filter>Quelldateien\VAO/VBO/Mesh</Filter>
+      <Filter>Quelldateien\Geometry\VAO/VBO/Mesh</Filter>
     </ClCompile>
     <ClCompile Include="GLSLShader.cpp">
       <Filter>Quelldateien\Shader</Filter>
@@ -79,10 +106,10 @@
       <Filter>Quelldateien\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Quelldateien\SceneManager\Model</Filter>
+      <Filter>Quelldateien\Geometry\Model</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>Quelldateien\SceneManager\Model</Filter>
+      <Filter>Quelldateien\Geometry\Model</Filter>
     </ClCompile>
     <ClCompile Include="Image.cpp">
       <Filter>Quelldateien</Filter>
@@ -93,8 +120,29 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="ScreenFillingQuad.cpp">
+    <ClCompile Include="RenderTarget.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Quelldateien\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Quad.cpp">
+      <Filter>Quelldateien\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenFillingQuad.cpp">
+      <Filter>Quelldateien\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryObject.cpp">
+      <Filter>Quelldateien\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="GBuffer.cpp">
+      <Filter>Quelldateien\Deffered Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Quelldateien\Deffered Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="DefferedRenderer.cpp">
+      <Filter>Quelldateien\Deffered Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,25 +152,61 @@
     <None Include="Vert.glsl">
       <Filter>Ressourcendateien</Filter>
     </None>
-    <None Include="FragToonShader.glsl">
+    <None Include="DefaultTexVert.glsl">
       <Filter>Ressourcendateien</Filter>
     </None>
-    <None Include="GeomToonShader.glsl">
+    <None Include="DefaultTexFrag.glsl">
       <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="SkyboxFrag.glsl">
+      <Filter>Ressourcendateien\Skybox</Filter>
+    </None>
+    <None Include="SkyboxVert.glsl">
+      <Filter>Ressourcendateien\Skybox</Filter>
     </None>
     <None Include="VertToonShader.glsl">
-      <Filter>Ressourcendateien</Filter>
+      <Filter>Ressourcendateien\Silhouette Shader</Filter>
+    </None>
+    <None Include="GeomToonShader.glsl">
+      <Filter>Ressourcendateien\Silhouette Shader</Filter>
+    </None>
+    <None Include="FragToonShader.glsl">
+      <Filter>Ressourcendateien\Silhouette Shader</Filter>
+    </None>
+    <None Include="GeomPassFrag.glsl">
+      <Filter>Ressourcendateien\Deffered Rendering</Filter>
+    </None>
+    <None Include="GeomPassVert.glsl">
+      <Filter>Ressourcendateien\Deffered Rendering</Filter>
+    </None>
+    <None Include="FragDirLight.glsl">
+      <Filter>Ressourcendateien\Deffered Rendering\LightingShaders</Filter>
+    </None>
+    <None Include="FragPointLight.glsl">
+      <Filter>Ressourcendateien\Deffered Rendering\LightingShaders</Filter>
+    </None>
+    <None Include="VertDirLight.glsl">
+      <Filter>Ressourcendateien\Deffered Rendering\LightingShaders</Filter>
+    </None>
+    <None Include="VertPointLight.glsl">
+      <Filter>Ressourcendateien\Deffered Rendering\LightingShaders</Filter>
+    </None>
+    <None Include="VertStencilPass.glsl">
+      <Filter>Ressourcendateien\Deffered Rendering\StencilPass</Filter>
+    </None>
+    <None Include="FragStencilPass.glsl">
+      <Filter>Ressourcendateien\Deffered Rendering\StencilPass</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VBO.h">
-      <Filter>Headerdateien\VAO/VBO/Mesh</Filter>
+      <Filter>Headerdateien\Geometry\VAO/VBO/Mesh</Filter>
     </ClInclude>
     <ClInclude Include="VAO.h">
-      <Filter>Headerdateien\VAO/VBO/Mesh</Filter>
+      <Filter>Headerdateien\Geometry\VAO/VBO/Mesh</Filter>
     </ClInclude>
     <ClInclude Include="CustomMesh.h">
-      <Filter>Headerdateien\VAO/VBO/Mesh</Filter>
+      <Filter>Headerdateien\Geometry\VAO/VBO/Mesh</Filter>
     </ClInclude>
     <ClInclude Include="GLSLShader.h">
       <Filter>Headerdateien\Shader</Filter>
@@ -149,10 +233,10 @@
       <Filter>Headerdateien\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Headerdateien\SceneManager\Model</Filter>
+      <Filter>Headerdateien\Geometry\Model</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>Headerdateien\SceneManager\Model</Filter>
+      <Filter>Headerdateien\Geometry\Model</Filter>
     </ClInclude>
     <ClInclude Include="Image.h">
       <Filter>Headerdateien</Filter>
@@ -163,14 +247,29 @@
     <ClInclude Include="GLSLUniformBuffer.h">
       <Filter>Headerdateien\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="ScreenFillingQuad.h">
-      <Filter>Headerdateien</Filter>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Headerdateien\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryObject.h">
+      <Filter>Headerdateien\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Quad.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenFillingQuad.h">
+      <Filter>Headerdateien\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="GBuffer.h">
+      <Filter>Headerdateien\Deffered Rederer</Filter>
     </ClInclude>
     <ClInclude Include="RenderTarget.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Headerdateien\Deffered Rederer</Filter>
+    </ClInclude>
+    <ClInclude Include="DefferedRenderer.h">
+      <Filter>Headerdateien\Deffered Rederer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

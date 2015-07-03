@@ -24,7 +24,7 @@ public:
 	//! \brief Updating camera position and rotation.
 	void update();
 
-	glm::vec3 getCamPos() { return m_tmp_position; }
+	glm::vec3 getCamPos() { return m_position; }
 
 private:
 
@@ -34,15 +34,7 @@ private:
 	float m_sensitivity_rotate;
 	float m_sensitivity_move;
 
-	glm::vec3 m_tmp_look_dir;
-	glm::vec3 m_tmp_up_dir;
-	glm::vec3 m_tmp_right_dir;
 	glm::vec3 m_move_vec;
-
-	glm::vec3 m_tmp_position;
-	glm::vec3 m_tmp_look_point;
-	glm::vec3 m_tmp_up_point;
-	glm::vec3 m_tmp_right_point;
 
 	void setCursorPos(GLFWwindow* window, double setX, double setY);
 	void setCursorPos(GLFWwindow* window);

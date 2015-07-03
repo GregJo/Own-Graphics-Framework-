@@ -4,6 +4,8 @@
 #include "../dependencies/assimp/include/assimp/Importer.hpp"
 #include "../dependencies/assimp/include/assimp/scene.h"
 #include "../dependencies/assimp/include/assimp/postprocess.h"
+
+#include "GeometryObject.h"
 #include "VAO.h"
 #include "GLSLUniformBuffer.h"
 #include <map>
@@ -164,7 +166,7 @@ struct CompareEdge
 	}
 };
 
-class ModelMesh
+class ModelMesh// : public GeometryObject 
 {
 public:
 	struct Material
@@ -203,7 +205,13 @@ public:
 
 	void bindMaterial()	{ m_material_uniform_buffer->bindUniformBuffer(); }
 
-	void drawModelMesh();
+	void setShaderEffect();
+	//class GLSLProgram* getCurrentShaderProgram()
+	//{
+	//	return nullptr;
+	//}
+
+	void draw();
 
 private:
 
@@ -226,5 +234,6 @@ private:
 
 	Material m_material;
 
+	//class GLSLProgram* m_shaderEffect;
 	GLSLUniformBuffer* m_material_uniform_buffer;
 };
